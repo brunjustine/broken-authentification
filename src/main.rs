@@ -1,18 +1,25 @@
-#[macro_use]
+use clap::{Arg, App, SubCommand};
 
-use clap::{Arg, App, SubCommand, arg_enum};
-
-fn to_int(v: String) -> Result<(), String> {
+fn is_int(v: String) -> Result<(), String> {
     match v.parse::<u32>() {
-        Ok(t) => Ok(()),
+        Ok(_) => Ok(()),
         _  => Err(String::from("The value is not an integer"))
     }
 }
 
-/*
-fn evaluate_entropy(n:u32,symbol_sets:String) -> f32 {
-}
+/* evaluate_entropy
+* l: u32 - lenght of the password
+* symbol_sets : String - number of differents symbole
+* return : f32, 
 */
+fn evaluate_entropy(l:u32,symbol_sets:f64) -> f64 {
+    (l as f64)*symbol_sets.log2()
+}
+
+fn entropy_to_combination(number_bits : &f64) -> f64 {
+    number_bits.exp2()
+}
+
 
 fn main() {
     let matches = App::new("CLI_broken_authentification")
@@ -38,18 +45,22 @@ fn main() {
                                            .help("Sets the length of the password")
                                            .takes_value(true)
                                            .required(true)
-                                           .validator(to_int)))
-                          .subcommand(SubCommand::with_name("test")
-                                      .about("controls testing features")
-                                      .version("1.3")
-                                      .author("brunjustin@eisti.eu")
-                                      .arg_from_usage("-d, --debug 'Print debug information'"))
+                                           .validator(is_int)))
+                          //.subcommand(SubCommand::with_name("test")
+                          //            .about("controls testing features")
+                          //            .version("1.3")
+                          //            .author("brunjustin@eisti.eu")
+                          //            .arg_from_usage("-d, --debug 'Print debug information'"))
                           .get_matches();
  
     if let Some(matches) = matches.subcommand_matches("entropy") {
         // Use the struct like normal
         match matches.value_of("evaluate") {
-        Some("NUMBERS")=>println!("Some numbers"),
+        Some("NUMBERS")=>{
+            let password_entropy = evaluate_entropy(1,10.0);
+            let password_combination = entropy_to_combination(&password_entropy);
+            println!("Some numbers, \n entropy : {} \n number of combination: {}\n", password_entropy, password_combination);
+        }
         Some("HEXADECIMAL")=>println!("Some hexadecimal"),
         Some("ASCII")=>println!("Some ascii"),
         _ => println!("Don't be crazy"),
