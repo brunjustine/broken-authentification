@@ -14,6 +14,9 @@ example : Si un mot de passe a 40 bits d’entropie, cela signifie qu’il est a
 
 Leur recommandation est de 29 bits d’entropie au minimum pour un mot de passe standard.
 
+### Data Source
+
+https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-10000.txt
 
 -----
 

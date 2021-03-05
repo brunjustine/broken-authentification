@@ -7,17 +7,12 @@ fn is_int(v: String) -> Result<(), String> {
     }
 }
 
-/* evaluate_entropy
-* l: u32 - lenght of the password
-* symbol_sets : String - number of differents symbole
-* return : f32, 
-*/
 fn evaluate_entropy(l:u32,symbol_sets:f64) -> f64 {
     (l as f64)*symbol_sets.log2()
 }
 
-fn entropy_to_combination(number_bits : &f64) -> f64 {
-    number_bits.exp2()
+fn entropy_to_combination(number_bits : &f64) -> u32 {
+    number_bits.exp2().round() as u32
 }
 
 
@@ -53,17 +48,27 @@ fn main() {
                           //            .arg_from_usage("-d, --debug 'Print debug information'"))
                           .get_matches();
  
+
+
+
+
     if let Some(matches) = matches.subcommand_matches("entropy") {
+        let password_length = matches.value_of("length").unwrap().parse::<u32>().unwrap();
+        let symbol_sets = matches.value_of("evaluate").unwrap();
+
         // Use the struct like normal
-        match matches.value_of("evaluate") {
-        Some("NUMBERS")=>{
-            let password_entropy = evaluate_entropy(1,10.0);
-            let password_combination = entropy_to_combination(&password_entropy);
-            println!("Some numbers, \n entropy : {} \n number of combination: {}\n", password_entropy, password_combination);
-        }
-        Some("HEXADECIMAL")=>println!("Some hexadecimal"),
-        Some("ASCII")=>println!("Some ascii"),
-        _ => println!("Don't be crazy"),
-        }
+        let password_entropy = match matches.value_of("evaluate") {
+            Some("NUMBERS")=> evaluate_entropy(password_length,10.0),
+            Some("HEXADECIMAL")=> evaluate_entropy(password_length,62.0),
+            Some("ASCII")=> evaluate_entropy(password_length,94.0),
+            _ => -1.0,
+        };
+        let password_combination = entropy_to_combination(&password_entropy);
+        
+        println!("\n\nEvaluate entropy, password length : {}, symbol sets : {}, \n entropy : {} \n number of combination: {}\n", 
+                password_length,
+                symbol_sets,
+                password_entropy, 
+                password_combination);
     }
 }
