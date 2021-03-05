@@ -27,4 +27,4 @@ Rust Clap - https://docs.rs/clap/2.33.0/clap/
 
 https://medium.com/@antoine.ansel/mots-de-passe-et-entropie-d5256019d06d
 
-Brun Justine
+Brun Justine <brunjustin@eisti.eu>
