@@ -18,6 +18,9 @@ Leur recommandation est de 29 bits d’entropie au minimum pour un mot de passe 
 
 https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-10000.txt
 
+### Crates
+
+Rust Clap - https://docs.rs/clap/2.33.0/clap/
 -----
 
 ### Source
