@@ -1,7 +1,10 @@
+#![feature(wrapping_int_impl)]
 use clap::{Arg, App, SubCommand, ArgMatches};
 use std::fs::File;
 use std::io::{self, BufRead};
 use std::path::Path;
+
+use std::num::Wrapping;
 
 
 fn is_int(v: String) -> Result<(), String> {
@@ -11,12 +14,20 @@ fn is_int(v: String) -> Result<(), String> {
     }
 }
 
-fn evaluate_entropy(l:u32,symbol_sets:f64) -> f64 {
-    (l as f64)*symbol_sets.log2()
+fn evaluate_entropy(l:u32,symbol_sets:f64) -> u32 {
+    ((l as f64)*symbol_sets.log2()) as u32
 }
 
-fn entropy_to_combination(number_bits : &f64) -> u32 {
-    number_bits.exp2().round() as u32
+fn entropy_to_combination(number_bits : &u32) -> u64 {
+    //u64::pow(2, *number_bits)
+    1<< *number_bits
+}
+
+fn combination_to_time(combination : u64) -> f64{
+    let time = 60f64;
+    let guess = 1000f64;
+    let day  = 24f64;
+    (combination as f64) / guess/time/time/day
 }
 
 fn call_entropy(matches : &ArgMatches) {
@@ -29,15 +40,16 @@ fn call_entropy(matches : &ArgMatches) {
             Some("NUMBERS")=> evaluate_entropy(password_length,10.0),
             Some("HEXADECIMAL")=> evaluate_entropy(password_length,62.0),
             Some("ASCII")=> evaluate_entropy(password_length,94.0),
-            _ => -1.0,
+            _ => 0,
         };
         let password_combination = entropy_to_combination(&password_entropy);
-
-        println!("\n\nEvaluate entropy, password length : {}, symbol sets : {}, \n entropy : {} \n number of combination: {}\n", 
+        let time_to_find = combination_to_time(password_combination);
+        println!("\n\nEvaluate entropy, password length : {}, symbol sets : {}, \n entropy : {} \n number of combination: {}\n time to find with 1000 guess/s : {} day(s)", 
                 password_length,
                 symbol_sets,
-                password_entropy, 
-                password_combination);
+                password_entropy as u32, 
+                password_combination,
+                time_to_find);
     }
 }
 
