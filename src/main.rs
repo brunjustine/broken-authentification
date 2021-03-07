@@ -110,11 +110,6 @@ fn main() {
                                           .help("Set the password to check")
                                           .required(true)
                                           .takes_value(true)))
-                          //.subcommand(SubCommand::with_name("test")
-                          //            .about("controls testing features")
-                          //            .version("1.3")
-                          //            .author("brunjustin@eisti.eu")
-                          //            .arg_from_usage("-d, --debug 'Print debug information'"))
                           .get_matches();
 
     call_entropy(&matches);

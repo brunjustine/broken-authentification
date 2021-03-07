@@ -3,7 +3,10 @@
 Rust
 
 -----
-### Password entropy
+### Available commands
+
+
+##### Password entropy
 
 Password entropy measures the unpredictability of a password, and thus the difficulty an attacker will encounter in discovering the password.
 
@@ -14,17 +17,39 @@ example : Si un mot de passe a 40 bits d’entropie, cela signifie qu’il est a
 
 Leur recommandation est de 29 bits d’entropie au minimum pour un mot de passe standard.
 
-### Data Source
 
-https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-10000.txt
+##### Critical Passord
 
-### Crates
+Test if a password is in the most common password file.
 
-Rust Clap - https://docs.rs/clap/2.33.0/clap/
+
+##### Help Commmands
+
+```console
+cargo run entropy --help
+cargo run critical --help
+```
+
 -----
 
 ### Source
+- Data Source :
 
-https://medium.com/@antoine.ansel/mots-de-passe-et-entropie-d5256019d06d
+ 	- [10-million-password-list-top-10000.txt](https://github.com/danielmiessler/SecLists/blob/master/Passwords/Common-Credentials/10-million-password-list-top-10000.txt)
 
+
+- Crates/API :
+
+	- [Rust Clap](https://docs.rs/clap/2.33.0/clap/)
+	- [Have I been pwned](https://haveibeenpwned.com/API/v3)
+
+- Documentation :
+
+	- [https://medium.com/@antoine.ansel/mots-de-passe-et-entropie-d5256019d06d](https://medium.com/@antoine.ansel/mots-de-passe-et-entropie-d5256019d06d)
+
+
+
+<br>
+<br>
 Brun Justine <brunjustin@eisti.eu>
+Larmarque Marine
